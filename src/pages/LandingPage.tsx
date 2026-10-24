@@ -12,10 +12,16 @@ import {
   CardContent,
   TextField,
   Paper,
+  Link,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BoltIcon from "@mui/icons-material/Bolt";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import type { FaqItem, Plan, Step, IPerfomance } from "@/types";
+import Header from "../components/Headr";
+import { isValidUrl } from "../utils/validateUrl";
 
 const faq: FaqItem[] = [
   {
@@ -135,16 +141,29 @@ const sectionTitleSx = {
 
 const LandingPage = () => {
   const [url, setUrl] = useState("");
+  const [error, setError] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleShorten = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!url.trim()) return;
+    if (!url.trim()) {
+      setError("Please enter a URL.");
+    }
     console.log("Shorten:", url);
-    // TODO: call your API here
+    let urlValid = isValidUrl(url);
+
+    // if true then call api
+    if (!urlValid) {
+      setError("Please enter a valid URL (e.g. https://example.com/page).");
+    } else {
+    }
+    // else show error
   };
 
   return (
     <Box sx={{ fontFamily: "Inter, sans-serif" }}>
+      <Header />
       {/* Hero Section */}
       <Box
         sx={{
@@ -217,67 +236,107 @@ const LandingPage = () => {
             real-time click telemetry across every channel in milliseconds.
           </Typography>
 
-          {/* Shortener Action Form */}
-          <Paper
-            component="form"
-            onSubmit={handleShorten}
-            elevation={3}
-            sx={{
-              p: 1.5,
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              gap: 1.5,
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #E2E8F0",
-              borderRadius: "16px",
-              maxWidth: "720px",
-              mx: "auto",
-              boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.08)",
-            }}
-          >
-            <TextField
-              fullWidth
-              placeholder="Paste any extensive, UTM-tagged URL..."
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              variant="standard"
-              slotProps={{
-                input: {
-                  disableUnderline: true,
-                  sx: {
-                    fontFamily: "Inter, sans-serif",
-                    fontSize: "0.95rem",
-                    px: 2,
-                    color: "#0F172A",
-                  },
-                },
-              }}
-              sx={{ justifyContent: "center" }}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              disableElevation
-              startIcon={<BoltIcon />}
+          {/* Shortener Action Form & Result Card Container */}
+          <Box sx={{ maxWidth: "720px", mx: "auto" }}>
+            <Paper
+              component="form"
+              onSubmit={handleShorten}
+              elevation={3}
               sx={{
-                backgroundColor: "#4F46E5",
-                color: "#FFFFFF",
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 600,
-                textTransform: "none",
-                borderRadius: "10px",
-                px: 4,
-                py: 1.5,
-                whiteSpace: "nowrap",
-                "&:hover": { backgroundColor: "#4338CA" },
-                "&:focus-visible": {
-                  boxShadow: "0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5",
-                },
+                p: 1.5,
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 1.5,
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #E2E8F0",
+                borderRadius: "16px",
+                boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.08)",
               }}
             >
-              Shorten Link
-            </Button>
-          </Paper>
+              <TextField
+                fullWidth
+                placeholder="Paste any extensive, UTM-tagged URL..."
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (error) setError("");
+                }}
+                variant="standard"
+                error={!!error}
+                helperText={error}
+                slotProps={{
+                  input: {
+                    disableUnderline: true,
+                    sx: {
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: "0.95rem",
+                      px: 2,
+                      color: "#0F172A",
+                    },
+                  },
+                  formHelperText: { sx: { px: 2, textAlign: "left" } },
+                }}
+                sx={{ justifyContent: "center" }}
+              />{" "}
+              <Button
+                type="submit"
+                variant="contained"
+                disableElevation
+                disabled={loading}
+                startIcon={<BoltIcon />}
+                sx={{
+                  backgroundColor: "#4F46E5",
+                  color: "#FFFFFF",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 600,
+                  textTransform: "none",
+                  borderRadius: "10px",
+                  px: 4,
+                  py: 1.5,
+                  whiteSpace: "nowrap",
+                  "&:hover": { backgroundColor: "#4338CA" },
+                  "&:focus-visible": {
+                    boxShadow: "0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5",
+                  },
+                }}
+              >
+                {loading ? "Shortening..." : "Shorten Link"}
+              </Button>
+            </Paper>
+
+            {shortUrl && (
+              <Paper
+                elevation={0}
+                sx={{
+                  mt: 2,
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  border: "1px solid #C7D2FE",
+                  borderRadius: "12px",
+                  backgroundColor: "#EEF2FF",
+                }}
+              >
+                <Link
+                  href={shortUrl}
+                  target="_blank"
+                  rel="noopener"
+                  underline="hover"
+                  sx={{ fontWeight: 600, color: "#4F46E5" }}
+                >
+                  {shortUrl}
+                </Link>
+                <Tooltip title="Copy">
+                  <IconButton
+                    onClick={() => navigator.clipboard.writeText(shortUrl)}
+                  >
+                    <ContentCopyIcon />
+                  </IconButton>
+                </Tooltip>
+              </Paper>
+            )}
+          </Box>
         </Container>
       </Box>
 
@@ -319,10 +378,7 @@ const LandingPage = () => {
                   <Typography variant="h6" gutterBottom>
                     {s.name}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "text.secondary" }}
-                  >
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {s.description}
                   </Typography>
                 </CardContent>

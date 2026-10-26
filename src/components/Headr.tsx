@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ContentCutIcon from "@mui/icons-material/ContentCut"; // or your Snip Brand Logo
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -20,6 +21,8 @@ const navLinks = [
 ];
 
 export const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <AppBar
       position="sticky"
@@ -95,12 +98,14 @@ export const Header = () => {
                 textTransform: "none",
                 fontSize: "0.9rem",
               }}
+              onClick={() => navigate("/login")}
             >
               Sign In
             </Button>
 
             {/* Sign Up Button */}
             <Button
+              onClick={() => navigate("/signup")}
               variant="contained"
               disableElevation
               sx={{

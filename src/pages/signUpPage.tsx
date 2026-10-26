@@ -15,7 +15,6 @@ import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import CreditCardOffOutlinedIcon from "@mui/icons-material/CreditCardOffOutlined";
 
-// Full multicolored Google Icon SVG component
 const FullGoogleIcon = () => (
   <svg
     width="18"

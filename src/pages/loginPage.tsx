@@ -373,7 +373,7 @@ const LoginPage = () => {
         <Box sx={{ textAlign: "center", mt: 3 }}>
           <Typography variant="body2" color="text.secondary">
             Don't have an account?{" "}
-            <Link href="#" underline="hover" sx={{ fontWeight: 600 }}>
+            <Link href="/signup" underline="hover" sx={{ fontWeight: 600 }}>
               Sign up for free
             </Link>
           </Typography>

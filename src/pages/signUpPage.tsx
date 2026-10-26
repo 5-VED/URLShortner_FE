@@ -436,7 +436,7 @@ const SignUpPage = () => {
         <Box sx={{ textAlign: "center", mt: 3 }}>
           <Typography variant="body2" color="text.secondary">
             Already have a Snip account?{" "}
-            <Link href="#" underline="hover" sx={{ fontWeight: 600 }}>
+            <Link href="/login" underline="hover" sx={{ fontWeight: 600 }}>
               Sign in instead
             </Link>
           </Typography>

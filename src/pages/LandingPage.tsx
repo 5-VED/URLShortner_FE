@@ -150,15 +150,13 @@ const LandingPage = () => {
     if (!url.trim()) {
       setError("Please enter a URL.");
     }
-    console.log("Shorten:", url);
+
     let urlValid = isValidUrl(url);
 
-    // if true then call api
     if (!urlValid) {
       setError("Please enter a valid URL (e.g. https://example.com/page).");
     } else {
     }
-    // else show error
   };
 
   return (

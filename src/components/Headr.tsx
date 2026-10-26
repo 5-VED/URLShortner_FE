@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   IconButton,
-  Avatar,
   Divider,
   Container,
 } from "@mui/material";

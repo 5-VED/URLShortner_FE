@@ -22,6 +22,8 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import type { FaqItem, Plan, Step, IPerfomance } from "@/types";
 import Header from "../components/Headr";
 import { isValidUrl } from "../utils/validateUrl";
+import { createShortCode } from "@/features/url/urlApi";
+import { BASE_URL } from "@/lib/httpClient";
 
 const faq: FaqItem[] = [
   {
@@ -145,7 +147,7 @@ const LandingPage = () => {
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleShorten = (e: FormEvent<HTMLFormElement>) => {
+  const handleShorten = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!url.trim()) {
       setError("Please enter a URL.");
@@ -156,6 +158,15 @@ const LandingPage = () => {
     if (!urlValid) {
       setError("Please enter a valid URL (e.g. https://example.com/page).");
     } else {
+      setError(""); // clear any old error
+      setShortUrl("");
+
+      try {
+        const result = await createShortCode({ url });
+        setShortUrl(`${BASE_URL}/${result.shortCode}`);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong.");
+      }
     }
   };
 

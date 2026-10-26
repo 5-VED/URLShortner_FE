@@ -158,9 +158,8 @@ const LandingPage = () => {
     if (!urlValid) {
       setError("Please enter a valid URL (e.g. https://example.com/page).");
     } else {
-      setError(""); // clear any old error
+      setError("");
       setShortUrl("");
-
       try {
         const result = await createShortCode({ url });
         setShortUrl(`${BASE_URL}/${result.shortCode}`);

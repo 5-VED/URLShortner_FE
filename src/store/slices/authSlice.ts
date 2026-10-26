@@ -49,7 +49,7 @@ const authSlice = createSlice({
     }
   },
   extraReducers:(builder)=>{
-      builder.addCase(loginThunk.pending, (state)=>{
+      builder.addCase(loginThunk.pending,(state)=>{
         state.status='loading'
         state.error=null
       }).addCase(loginThunk.fulfilled,(state,action)=>{

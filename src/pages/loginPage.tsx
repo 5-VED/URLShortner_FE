@@ -19,6 +19,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import BoltIcon from "@mui/icons-material/Bolt";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import { login } from "@/features/auth/authApi";
 
 // Full multicolored Google Icon SVG component
 const FullGoogleIcon = () => (
@@ -107,8 +108,8 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      // Add your login/authentication API logic here
-      // await api.login({ email, password, rememberDevice });
+      const result = await login({ email, passsword });
+      return result;
     } finally {
       // Re-enable the button after the request finishes (success or failure)
       setLoading(false);

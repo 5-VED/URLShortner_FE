@@ -10,7 +10,7 @@ export interface AuthUser {
 
 export interface LoginPayload {
   email: string;
-  passsword: string;
+  password: string;
 }
 
 export interface LoginResponse {

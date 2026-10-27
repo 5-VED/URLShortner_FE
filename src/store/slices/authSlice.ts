@@ -1,17 +1,17 @@
-import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   LoginPayload,
   LoginResponse,
   AuthUser,
 } from "../../features/auth/types";
 import {
-login
+  login
 } from "../../features/auth/authApi";
 
 interface AuthState {
   user: AuthUser | null;
   accessToken: string | null;
-  refrestToken:string | null;
+  refrestToken: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error:
 }
@@ -25,42 +25,42 @@ const initialState: AuthState = {
 };
 
 
-export const loginThunk = createAsyncThunk<LoginResponse,LoginPayload,{rejectValue:string}>('user/login',async(credentials,{rejectWithValue})=>{
-  try{
+export const loginThunk = createAsyncThunk<LoginResponse, LoginPayload, { rejectValue: string }>('user/login', async (credentials, { rejectWithValue }) => {
+  try {
     const res = await login(credentials)
-    return res 
-  } catch(err){
-    return rejectWithValue(err instanceof Error ? err.message : "Something went wrong")  
+    return res
+  } catch (err) {
+    return rejectWithValue(err instanceof Error ? err.message : "Something went wrong")
   }
 })
 
 
 const authSlice = createSlice({
-  name:"auth",
+  name: "auth",
   initialState,
-  reducers:{
-    logout:(state)=>{
-    state.user = null,
-    state.accessToken=null,
-     state.status="idle" 
+  reducers: {
+    logout: (state) => {
+      state.user = null,
+        state.accessToken = null,
+        state.status = "idle"
     },
-    cleanError:(state)=>{
+    cleanError: (state) => {
       state.error = null
     }
   },
-  extraReducers:(builder)=>{
-      builder.addCase(loginThunk.pending,(state)=>{
-        state.status='loading'
-        state.error=null
-      }).addCase(loginThunk.fulfilled,(state,action)=>{
-        state.status="succeeded",
+  extraReducers: (builder) => {
+    builder.addCase(loginThunk.pending, (state) => {
+      state.status = 'loading'
+      state.error = null
+    }).addCase(loginThunk.fulfilled, (state, action) => {
+      state.status = "succeeded",
         state.user = action.payload.user,
         state.accessToken = action.payload.accessToken,
         state.refrestToken = action.payload.refreshToken,
-      }).addCase(loginThunk.rejected,(state,action)=>{
-        state.status="failed",
-        state.error = action.payload ?? "Login failed."
-      })
+      }).addCase(loginThunk.rejected, (state, action) => {
+          state.status = "failed",
+            state.error = action.payload ?? "Login failed."
+        })
   }
 })
 

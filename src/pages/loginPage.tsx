@@ -108,7 +108,7 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      const result = await login({ email, passsword });
+      const result = await login({ email, password });
       return result;
     } finally {
       // Re-enable the button after the request finishes (success or failure)

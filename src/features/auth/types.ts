@@ -13,6 +13,20 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface SignUpPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface SignUpResponse {
+  user: AuthUser;
+  success: boolean;
+  statusCode: number
+
+}
+
 export interface LoginResponse {
   user: AuthUser;
   accessToken: string;

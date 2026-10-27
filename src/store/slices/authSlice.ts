@@ -3,23 +3,26 @@ import {
   LoginPayload,
   LoginResponse,
   AuthUser,
+  SignUpPayload,
+  SignUpResponse,
 } from "../../features/auth/types";
 import {
-  login
+  login,
+  signUp
 } from "../../features/auth/authApi";
 
 interface AuthState {
   user: AuthUser | null;
   accessToken: string | null;
-  refrestToken: string | null;
+  refreshToken: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
-  error:
+  error: null
 }
 
 const initialState: AuthState = {
   user: null,
   accessToken: null,
-  refrestToken: null,
+  refreshToken: null,
   status: "idle",
   error: null,
 };
@@ -28,6 +31,16 @@ const initialState: AuthState = {
 export const loginThunk = createAsyncThunk<LoginResponse, LoginPayload, { rejectValue: string }>('user/login', async (credentials, { rejectWithValue }) => {
   try {
     const res = await login(credentials)
+    return res
+  } catch (err) {
+    return rejectWithValue(err instanceof Error ? err.message : "Something went wrong")
+  }
+})
+
+
+export const signupThunk = createAsyncThunk<SignUpResponse, SignUpPayload, { rejectValue: string }>('user/signup', async (credentials, { rejectWithValue }) => {
+  try {
+    const res = await signUp(credentials)
     return res
   } catch (err) {
     return rejectWithValue(err instanceof Error ? err.message : "Something went wrong")
@@ -49,19 +62,39 @@ const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(loginThunk.pending, (state) => {
-      state.status = 'loading'
-      state.error = null
-    }).addCase(loginThunk.fulfilled, (state, action) => {
-      state.status = "succeeded",
-        state.user = action.payload.user,
-        state.accessToken = action.payload.accessToken,
-        state.refrestToken = action.payload.refreshToken,
-      }).addCase(loginThunk.rejected, (state, action) => {
-          state.status = "failed",
-            state.error = action.payload ?? "Login failed."
-        })
-  }
+    builder
+      // ---------- LOGIN ----------
+      .addCase(loginThunk.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken
+      })
+      .addCase(loginThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload ?? "Login failed.";
+      })
+
+      // ---------- SIGNUP ----------
+      .addCase(signupThunk.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(signupThunk.fulfilled, (state) => {
+        // Signup does not log the user in, so we only update the status.
+        state.status = "succeeded";
+        state.error = null;
+      })
+      .addCase(signupThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload ?? "Signup failed.";
+      });
+  },
+
 })
 
 export const { logout, cleanError } = authSlice.actions;

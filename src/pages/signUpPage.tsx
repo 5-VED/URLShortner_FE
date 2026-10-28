@@ -14,7 +14,6 @@ import { useEffect, useState, type FormEvent } from "react";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import CreditCardOffOutlinedIcon from "@mui/icons-material/CreditCardOffOutlined";
-import { signUp } from "@/features/auth/authApi";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { cleanError, signupThunk } from "@/store/slices/authSlice";
@@ -46,10 +45,8 @@ const FullGoogleIcon = () => (
 );
 
 const SignUpPage = () => {
-
-  const navigage = useNavigate()
-  const dispatch = useAppDispatch()
-
+  const navigage = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -62,16 +59,17 @@ const SignUpPage = () => {
   const [passwordError, setPasswordError] = useState("");
   const [termsError, setTermsError] = useState("");
 
+  // Loading
   const [loading, setLoading] = useState(false);
 
-  const status = useAppSelector((state) => state.auth.status)
-  const error = useAppSelector((state) => state.auth.error)
-  const isLoading = status === "loading"
+  const status = useAppSelector((state) => state.auth.status);
+  const error = useAppSelector((state) => state.auth.error);
+  const isLoading = status === "loading";
 
   // Clean Any Error existing
   useEffect(() => {
-    dispatch(cleanError())
-  }, [dispatch])
+    dispatch(cleanError());
+  }, [dispatch]);
 
   // Password validation checks
   const hasMinLength = password.length >= 8;
@@ -111,7 +109,7 @@ const SignUpPage = () => {
 
     if (!agreeToTerms) {
       setTermsError(
-        "You must agree to the Terms of Service and Privacy Policy.",
+        "You must agree to the Terms of Service and Privacy Policy."
       );
       isValid = false;
     }
@@ -119,26 +117,24 @@ const SignUpPage = () => {
     if (!isValid) return;
 
     setLoading(true);
-    const parts = fullName.split(" ")
-    const firstName = parts[0]
-    const lastName = parts.slice(1).join(" ")
+    const parts = fullName.split(" ");
+    const firstName = parts[0];
+    const lastName = parts.slice(1).join(" ");
 
     // Add your sign-up API logic here
     try {
       const result = await dispatch(
-        signupThunk({ firstName, lastName, email: email.trim(), password }),
+        signupThunk({ firstName, lastName, email: email.trim(), password })
       ).unwrap();
 
       if (result.success) {
-        navigage("/dashboard")
+        navigage("/login");
       }
-
-
     } catch (error) {
       return error;
     } finally {
       setLoading(false);
-      dispatch(cleanError())
+      dispatch(cleanError());
     }
   };
 

@@ -22,7 +22,7 @@ A modern, fast, and responsive URL shortener and link management web application
 - **🎨 Modern & Responsive UI**: Crafted with Material UI (MUI) components, custom gradients, smooth transitions, and mobile-first layouts.
 - **📈 Real-Time Performance Highlights**: Highlighting global edge latency, redirect uptime, and links shortened.
 - **🧭 Step-by-Step Workflow**: Clear 4-step user guide detailing link creation, customization, sharing, and performance tracking.
-- **💳 Transparent Pricing Plans**: Tiered plans (*Free*, *Standard*, *Pro*, *Enterprise*) with detailed feature breakdowns.
+- **💳 Transparent Pricing Plans**: Tiered plans (_Free_, _Standard_, _Pro_, _Enterprise_) with detailed feature breakdowns.
 - **❓ Interactive FAQ**: Smooth accordion expandable answers for common user questions.
 - **🛡️ 100% Type-Safe**: Modular TypeScript interfaces organized under `src/types/` with clean `@/*` path aliases.
 - **⚡ Blazing Fast Tooling**: Powered by Vite and Oxlint for sub-millisecond linting and instant HMR (Hot Module Replacement).
@@ -31,19 +31,19 @@ A modern, fast, and responsive URL shortener and link management web application
 
 ## 🛠️ Tech Stack
 
-| Category | Technology | Description |
-| :--- | :--- | :--- |
-| **Framework** | [React 19](https://react.dev/) | Core UI library |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | Strongly typed JavaScript |
-| **Build Tool** | [Vite](https://vite.dev/) | Next-generation frontend tooling |
-| **UI Components** | [Material UI (MUI)](https://mui.com/) | Component library for layout, cards, accordions, and buttons |
-| **Icons** | [@mui/icons-material](https://mui.com/material-ui/material-icons/) & [Lucide React](https://lucide.dev/) | Iconography |
-| **Styling** | [@emotion/react](https://emotion.sh/) & [@emotion/styled](https://emotion.sh/) | CSS-in-JS engine |
-| **State Management** | [@reduxjs/toolkit](https://redux-toolkit.js.org/) & [react-redux](https://react-redux.js.org/) | Global state management |
-| **Routing** | [react-router-dom v7](https://reactrouter.com/) | Client-side routing |
-| **Data Visualization** | [Recharts](https://recharts.org/) & [@mui/x-charts](https://mui.com/x/react-charts/) | Telemetry and click analytics charts |
-| **HTTP Client** | [Axios](https://axios-http.com/) | Backend API requests |
-| **Linter** | [Oxlint](https://oxc.rs/) | High-performance Rust-based JavaScript/TypeScript linter |
+| Category               | Technology                                                                                               | Description                                                  |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------- |
+| **Framework**          | [React 19](https://react.dev/)                                                                           | Core UI library                                              |
+| **Language**           | [TypeScript](https://www.typescriptlang.org/)                                                            | Strongly typed JavaScript                                    |
+| **Build Tool**         | [Vite](https://vite.dev/)                                                                                | Next-generation frontend tooling                             |
+| **UI Components**      | [Material UI (MUI)](https://mui.com/)                                                                    | Component library for layout, cards, accordions, and buttons |
+| **Icons**              | [@mui/icons-material](https://mui.com/material-ui/material-icons/) & [Lucide React](https://lucide.dev/) | Iconography                                                  |
+| **Styling**            | [@emotion/react](https://emotion.sh/) & [@emotion/styled](https://emotion.sh/)                           | CSS-in-JS engine                                             |
+| **State Management**   | [@reduxjs/toolkit](https://redux-toolkit.js.org/) & [react-redux](https://react-redux.js.org/)           | Global state management                                      |
+| **Routing**            | [react-router-dom v7](https://reactrouter.com/)                                                          | Client-side routing                                          |
+| **Data Visualization** | [Recharts](https://recharts.org/) & [@mui/x-charts](https://mui.com/x/react-charts/)                     | Telemetry and click analytics charts                         |
+| **HTTP Client**        | [Axios](https://axios-http.com/)                                                                         | Backend API requests                                         |
+| **Linter**             | [Oxlint](https://oxc.rs/)                                                                                | High-performance Rust-based JavaScript/TypeScript linter     |
 
 ---
 
@@ -81,6 +81,7 @@ URLShortner_FE/
 ### Prerequisites
 
 Ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (v18.0.0 or higher recommended)
 - [npm](https://www.npmjs.com/) (bundled with Node) or `yarn` / `pnpm`
 
@@ -124,12 +125,12 @@ The application will start locally at `http://localhost:5173/`.
 
 ## 📜 Available Scripts
 
-| Command | Action |
-| :--- | :--- |
-| `npm run dev` | Starts Vite development server with hot module replacement |
-| `npm run build` | Runs TypeScript compilation (`tsc -b`) and generates production bundle in `dist/` |
-| `npm run preview` | Locally previews the production build |
-| `npm run lint` | Runs ultra-fast Oxlint checks across the codebase |
+| Command           | Action                                                                            |
+| :---------------- | :-------------------------------------------------------------------------------- |
+| `npm run dev`     | Starts Vite development server with hot module replacement                        |
+| `npm run build`   | Runs TypeScript compilation (`tsc -b`) and generates production bundle in `dist/` |
+| `npm run preview` | Locally previews the production build                                             |
+| `npm run lint`    | Runs ultra-fast Oxlint checks across the codebase                                 |
 
 ---
 

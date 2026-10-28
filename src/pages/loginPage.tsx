@@ -19,7 +19,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import BoltIcon from "@mui/icons-material/Bolt";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
-import { login } from "@/features/auth/authApi";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useNavigate } from "react-router-dom";
 
 // Full multicolored Google Icon SVG component
 const FullGoogleIcon = () => (
@@ -108,10 +109,8 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      const result = await login({ email, password });
-      return result;
+    } catch (error) {
     } finally {
-      // Re-enable the button after the request finishes (success or failure)
       setLoading(false);
     }
   };

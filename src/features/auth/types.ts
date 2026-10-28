@@ -23,8 +23,7 @@ export interface SignUpPayload {
 export interface SignUpResponse {
   user: AuthUser;
   success: boolean;
-  statusCode: number
-
+  statusCode: number;
 }
 
 export interface LoginResponse {

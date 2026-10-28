@@ -1,5 +1,10 @@
 import { getErrorMessage, http } from "@/lib/httpClient";
-import { LoginPayload, LoginResponse, SignUpPayload, SignUpResponse } from "@/features/auth/types";
+import {
+  LoginPayload,
+  LoginResponse,
+  SignUpPayload,
+  SignUpResponse,
+} from "@/features/auth/types";
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   try {
@@ -10,7 +15,9 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   }
 };
 
-export const signUp = async (payload: SignUpPayload): Promise<SignUpResponse> => {
+export const signUp = async (
+  payload: SignUpPayload
+): Promise<SignUpResponse> => {
   try {
     const response = await http.post<SignUpResponse>("/user/signup", payload);
     return response.data;

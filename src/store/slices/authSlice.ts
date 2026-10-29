@@ -91,7 +91,6 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(signupThunk.fulfilled, (state) => {
-        // Signup does not log the user in, so we only update the status.
         state.status = "succeeded";
         state.error = null;
       })

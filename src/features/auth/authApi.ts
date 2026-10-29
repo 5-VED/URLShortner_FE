@@ -8,7 +8,7 @@ import {
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
   try {
-    const response = await http.post<LoginResponse>("/login", payload);
+    const response = await http.post<LoginResponse>("/user/login", payload);
     return response.data;
   } catch (error) {
     throw new Error(getErrorMessage(error));

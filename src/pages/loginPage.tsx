@@ -21,6 +21,7 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useNavigate } from "react-router-dom";
+import { loginThunk } from "@/store/slices/authSlice";
 
 // Full multicolored Google Icon SVG component
 const FullGoogleIcon = () => (
@@ -64,6 +65,8 @@ const validatePassword = (value: string) => {
 };
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -109,6 +112,10 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
+      const result = await dispatch(loginThunk({ email, password }));
+      if (result) {
+        console.log(result);
+      }
     } catch (error) {
     } finally {
       setLoading(false);

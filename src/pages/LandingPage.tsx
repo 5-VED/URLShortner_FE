@@ -24,6 +24,7 @@ import Header from "../components/Headr";
 import { isValidUrl } from "../utils/validateUrl";
 import { createShortCode } from "@/features/url/urlApi";
 import { BASE_URL } from "@/lib/httpClient";
+import Footer from "@/components/Footer";
 
 const faq: FaqItem[] = [
   {
@@ -170,307 +171,317 @@ const LandingPage = () => {
   };
 
   return (
-    <Box sx={{ fontFamily: "Inter, sans-serif" }}>
+    <>
       <Header />
-      {/* Hero Section */}
-      <Box
-        sx={{
-          background: "linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 100%)",
-          pt: { xs: 8, md: 12 },
-          pb: { xs: 10, md: 16 },
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <Container maxWidth="md">
-          {/* Top Badge */}
-          <Box
-            sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 1,
-              backgroundColor: "#EEF2FF",
-              border: "1px solid #C7D2FE",
-              borderRadius: "9999px",
-              px: 2,
-              py: 0.75,
-              mb: 3,
-            }}
-          >
-            <BoltIcon sx={{ fontSize: 16, color: "#4F46E5" }} />
+      <Box sx={{ fontFamily: "Inter, sans-serif" }}>
+        {/* Hero Section */}
+        <Box
+          sx={{
+            background: "linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 100%)",
+            pt: { xs: 8, md: 12 },
+            pb: { xs: 10, md: 16 },
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <Container maxWidth="md">
+            {/* Top Badge */}
+            <Box
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 1,
+                backgroundColor: "#EEF2FF",
+                border: "1px solid #C7D2FE",
+                borderRadius: "9999px",
+                px: 2,
+                py: 0.75,
+                mb: 3,
+              }}
+            >
+              <BoltIcon sx={{ fontSize: 16, color: "#4F46E5" }} />
+              <Typography
+                sx={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "0.813rem",
+                  fontWeight: 600,
+                  color: "#4F46E5",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                EDGE ENGINE V4.2 LIVE • Zero Routing Overhead
+              </Typography>
+            </Box>
+
+            {/* Headline */}
+            <Typography
+              variant="h1"
+              sx={{
+                fontFamily: "Plus Jakarta Sans, sans-serif",
+                fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4rem" },
+                fontWeight: 800,
+                color: "#0F172A",
+                letterSpacing: "-0.02em",
+                lineHeight: 1.15,
+                mb: 2.5,
+              }}
+            >
+              Smarter links, instantaneous redirects.
+            </Typography>
+
+            {/* Subtext */}
             <Typography
               sx={{
                 fontFamily: "Inter, sans-serif",
-                fontSize: "0.813rem",
-                fontWeight: 600,
-                color: "#4F46E5",
-                letterSpacing: "-0.01em",
+                fontSize: { xs: "1rem", md: "1.125rem" },
+                color: "#64748B",
+                maxWidth: "640px",
+                mx: "auto",
+                mb: 5,
+                lineHeight: 1.6,
               }}
             >
-              EDGE ENGINE V4.2 LIVE • Zero Routing Overhead
+              Shorten long messy URLs, generate custom branded links, and track
+              real-time click telemetry across every channel in milliseconds.
             </Typography>
-          </Box>
 
-          {/* Headline */}
-          <Typography
-            variant="h1"
-            sx={{
-              fontFamily: "Plus Jakarta Sans, sans-serif",
-              fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4rem" },
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.15,
-              mb: 2.5,
-            }}
-          >
-            Smarter links, instantaneous redirects.
-          </Typography>
-
-          {/* Subtext */}
-          <Typography
-            sx={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: { xs: "1rem", md: "1.125rem" },
-              color: "#64748B",
-              maxWidth: "640px",
-              mx: "auto",
-              mb: 5,
-              lineHeight: 1.6,
-            }}
-          >
-            Shorten long messy URLs, generate custom branded links, and track
-            real-time click telemetry across every channel in milliseconds.
-          </Typography>
-
-          {/* Shortener Action Form & Result Card Container */}
-          <Box sx={{ maxWidth: "720px", mx: "auto" }}>
-            <Paper
-              component="form"
-              onSubmit={handleShorten}
-              elevation={3}
-              sx={{
-                p: 1.5,
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                gap: 1.5,
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #E2E8F0",
-                borderRadius: "16px",
-                boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.08)",
-              }}
-            >
-              <TextField
-                fullWidth
-                placeholder="Paste any extensive, UTM-tagged URL..."
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                  if (error) setError("");
-                }}
-                variant="standard"
-                error={!!error}
-                helperText={error}
-                slotProps={{
-                  input: {
-                    disableUnderline: true,
-                    sx: {
-                      fontFamily: "Inter, sans-serif",
-                      fontSize: "0.95rem",
-                      px: 2,
-                      color: "#0F172A",
-                    },
-                  },
-                  formHelperText: { sx: { px: 2, textAlign: "left" } },
-                }}
-                sx={{ justifyContent: "center" }}
-              />{" "}
-              <Button
-                type="submit"
-                variant="contained"
-                disableElevation
-                disabled={loading}
-                startIcon={<BoltIcon />}
-                sx={{
-                  backgroundColor: "#4F46E5",
-                  color: "#FFFFFF",
-                  fontFamily: "Inter, sans-serif",
-                  fontWeight: 600,
-                  textTransform: "none",
-                  borderRadius: "10px",
-                  px: 4,
-                  py: 1.5,
-                  whiteSpace: "nowrap",
-                  "&:hover": { backgroundColor: "#4338CA" },
-                  "&:focus-visible": {
-                    boxShadow: "0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5",
-                  },
-                }}
-              >
-                {loading ? "Shortening..." : "Shorten Link"}
-              </Button>
-            </Paper>
-
-            {shortUrl && (
+            {/* Shortener Action Form & Result Card Container */}
+            <Box sx={{ maxWidth: "720px", mx: "auto" }}>
               <Paper
-                elevation={0}
+                component="form"
+                onSubmit={handleShorten}
+                elevation={3}
                 sx={{
-                  mt: 2,
-                  p: 2,
+                  p: 1.5,
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  border: "1px solid #C7D2FE",
-                  borderRadius: "12px",
-                  backgroundColor: "#EEF2FF",
+                  flexDirection: { xs: "column", sm: "row" },
+                  gap: 1.5,
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid #E2E8F0",
+                  borderRadius: "16px",
+                  boxShadow: "0 10px 25px -5px rgba(79, 70, 229, 0.08)",
                 }}
               >
-                <Link
-                  href={shortUrl}
-                  target="_blank"
-                  rel="noopener"
-                  underline="hover"
-                  sx={{ fontWeight: 600, color: "#4F46E5" }}
+                <TextField
+                  fullWidth
+                  placeholder="Paste any extensive, UTM-tagged URL..."
+                  value={url}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    if (error) setError("");
+                  }}
+                  variant="standard"
+                  error={!!error}
+                  helperText={error}
+                  slotProps={{
+                    input: {
+                      disableUnderline: true,
+                      sx: {
+                        fontFamily: "Inter, sans-serif",
+                        fontSize: "0.95rem",
+                        px: 2,
+                        color: "#0F172A",
+                      },
+                    },
+                    formHelperText: { sx: { px: 2, textAlign: "left" } },
+                  }}
+                  sx={{ justifyContent: "center" }}
+                />{" "}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disableElevation
+                  disabled={loading}
+                  startIcon={<BoltIcon />}
+                  sx={{
+                    backgroundColor: "#4F46E5",
+                    color: "#FFFFFF",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 600,
+                    textTransform: "none",
+                    borderRadius: "10px",
+                    px: 4,
+                    py: 1.5,
+                    whiteSpace: "nowrap",
+                    "&:hover": { backgroundColor: "#4338CA" },
+                    "&:focus-visible": {
+                      boxShadow: "0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5",
+                    },
+                  }}
                 >
-                  {shortUrl}
-                </Link>
-                <Tooltip title="Copy">
-                  <IconButton
-                    onClick={() => navigator.clipboard.writeText(shortUrl)}
-                  >
-                    <ContentCopyIcon />
-                  </IconButton>
-                </Tooltip>
+                  {loading ? "Shortening..." : "Shorten Link"}
+                </Button>
               </Paper>
-            )}
-          </Box>
-        </Container>
-      </Box>
 
-      {/* Remaining sections */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
-        {/* Performance */}
-        <Grid container spacing={3} sx={{ mb: 10 }}>
-          {performance.map((p) => (
-            <Grid
-              size={{ xs: 6, md: 3 }}
-              key={p.value}
-              sx={{ textAlign: "center" }}
-            >
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: 700, color: "#0F172A" }}
-              >
-                {p.value}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {p.description}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Steps */}
-        <Typography variant="h4" sx={sectionTitleSx}>
-          How it works
-        </Typography>
-        <Grid container spacing={3} sx={{ mb: 10 }}>
-          {steps.map((s) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={s.step}>
-              <Card variant="outlined" sx={{ height: "100%" }}>
-                <CardContent>
-                  <Typography sx={{ color: "primary.main", fontWeight: 700 }}>
-                    Step {s.step}
-                  </Typography>
-                  <Typography variant="h6" gutterBottom>
-                    {s.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {s.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Pricing */}
-        <Typography variant="h4" sx={sectionTitleSx}>
-          Pricing
-        </Typography>
-        <Grid container spacing={3} sx={{ mb: 10 }}>
-          {plans.map((plan) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={plan.name}>
-              <Card variant="outlined" sx={{ height: "100%" }}>
-                <CardContent>
-                  <Typography variant="h6">{plan.name}</Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "text.secondary", mb: 2 }}
+              {shortUrl && (
+                <Paper
+                  elevation={0}
+                  sx={{
+                    mt: 2,
+                    p: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    border: "1px solid #C7D2FE",
+                    borderRadius: "12px",
+                    backgroundColor: "#EEF2FF",
+                  }}
+                >
+                  <Link
+                    href={shortUrl}
+                    target="_blank"
+                    rel="noopener"
+                    underline="hover"
+                    sx={{ fontWeight: 600, color: "#4F46E5" }}
                   >
-                    {plan.description}
-                  </Typography>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-                    ${plan.amount}
+                    {shortUrl}
+                  </Link>
+                  <Tooltip title="Copy">
+                    <IconButton
+                      onClick={() => navigator.clipboard.writeText(shortUrl)}
+                    >
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Paper>
+              )}
+            </Box>
+          </Container>
+        </Box>
+
+        {/* Remaining sections */}
+        <Container maxWidth="lg" sx={{ py: 6 }}>
+          {/* Performance */}
+          <Grid container spacing={3} sx={{ mb: 10 }}>
+            {performance.map((p) => (
+              <Grid
+                size={{ xs: 6, md: 3 }}
+                key={p.value}
+                sx={{ textAlign: "center" }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 700, color: "#0F172A" }}
+                >
+                  {p.value}
+                </Typography>
+                <Typography sx={{ color: "text.secondary" }}>
+                  {p.description}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Steps */}
+          <Typography variant="h4" sx={sectionTitleSx}>
+            How it works
+          </Typography>
+          <Grid container spacing={3} sx={{ mb: 10 }}>
+            {steps.map((s) => (
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={s.step}>
+                <Card variant="outlined" sx={{ height: "100%" }}>
+                  <CardContent>
+                    <Typography sx={{ color: "primary.main", fontWeight: 700 }}>
+                      Step {s.step}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                      {s.name}
+                    </Typography>
                     <Typography
-                      component="span"
+                      variant="body2"
                       sx={{ color: "text.secondary" }}
                     >
-                      /mo
+                      {s.description}
                     </Typography>
-                  </Typography>
-                  {plan.features.map((f) => (
-                    <Typography key={f} variant="body2" sx={{ mb: 0.5 }}>
-                      ✓ {f}
-                    </Typography>
-                  ))}
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
 
-        {/* FAQ */}
-        <Typography variant="h4" sx={sectionTitleSx}>
-          Frequently asked questions
-        </Typography>
-        {faq.map((item) => (
-          <Accordion
-            key={item.question}
-            elevation={0}
-            disableGutters
-            sx={{
-              backgroundColor: "#F8FAFC",
-              border: "1px solid #E2E8F0",
-              borderRadius: "12px !important",
-              mb: 2,
-              "&:before": { display: "none" },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+          {/* Pricing */}
+          <Typography variant="h4" sx={sectionTitleSx}>
+            Pricing
+          </Typography>
+          <Grid container spacing={3} sx={{ mb: 10 }}>
+            {plans.map((plan) => (
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={plan.name}>
+                <Card variant="outlined" sx={{ height: "100%" }}>
+                  <CardContent>
+                    <Typography variant="h6">{plan.name}</Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "text.secondary", mb: 2 }}
+                    >
+                      {plan.description}
+                    </Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
+                      ${plan.amount}
+                      <Typography
+                        component="span"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        /mo
+                      </Typography>
+                    </Typography>
+                    {plan.features.map((f) => (
+                      <Typography key={f} variant="body2" sx={{ mb: 0.5 }}>
+                        ✓ {f}
+                      </Typography>
+                    ))}
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* FAQ */}
+          <Typography variant="h4" sx={sectionTitleSx}>
+            Frequently asked questions
+          </Typography>
+          {faq.map((item) => (
+            <Accordion
+              key={item.question}
+              elevation={0}
+              disableGutters
               sx={{
-                px: 3,
-                py: 1,
-                "& .MuiAccordionSummary-content": { my: 1.5 },
+                backgroundColor: "#F8FAFC",
+                border: "1px solid #E2E8F0",
+                borderRadius: "12px !important",
+                mb: 2,
+                "&:before": { display: "none" },
               }}
             >
-              <Typography sx={{ fontWeight: 600, color: "#0F172A" }}>
-                {item.question}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ px: 3, pb: 3, pt: 0 }}>
-              <Typography
-                sx={{ fontSize: "0.875rem", lineHeight: 1.6, color: "#64748B" }}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  px: 3,
+                  py: 1,
+                  "& .MuiAccordionSummary-content": { my: 1.5 },
+                }}
               >
-                {item.answers}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </Container>
-    </Box>
+                <Typography sx={{ fontWeight: 600, color: "#0F172A" }}>
+                  {item.question}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ px: 3, pb: 3, pt: 0 }}>
+                <Typography
+                  sx={{
+                    fontSize: "0.875rem",
+                    lineHeight: 1.6,
+                    color: "#64748B",
+                  }}
+                >
+                  {item.answers}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Container>
+      </Box>
+      <Footer />
+    </>
   );
 };
 

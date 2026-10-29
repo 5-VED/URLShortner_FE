@@ -14,7 +14,6 @@ import TerminalIcon from "@mui/icons-material/Terminal";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import LinkIcon from "@mui/icons-material/Link";
-import { Link as RouterLink } from "react-router-dom";
 
 interface FooterColumn {
   title: string;

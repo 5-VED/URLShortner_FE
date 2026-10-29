@@ -22,6 +22,7 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useNavigate } from "react-router-dom";
 import { loginThunk } from "@/store/slices/authSlice";
+import toast from "react-hot-toast";
 
 // Full multicolored Google Icon SVG component
 const FullGoogleIcon = () => (
@@ -66,6 +67,7 @@ const validatePassword = (value: string) => {
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -113,9 +115,12 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const result = await dispatch(loginThunk({ email, password }));
-      if (result) {
-        console.log(result);
+
+      if (result.payload.success) {
+        toast.success("Logged in successfully");
+        navigate("/dashboard");
       }
+
     } catch (error) {
     } finally {
       setLoading(false);

@@ -30,4 +30,6 @@ export interface LoginResponse {
   user: AuthUser;
   accessToken: string;
   refreshToken: string;
+  success: boolean;
+  statusCode: number;
 }

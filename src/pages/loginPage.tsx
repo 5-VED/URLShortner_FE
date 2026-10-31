@@ -120,7 +120,6 @@ const LoginPage = () => {
         toast.success("Logged in successfully");
         navigate("/dashboard");
       }
-
     } catch (error) {
     } finally {
       setLoading(false);

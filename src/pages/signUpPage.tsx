@@ -18,7 +18,8 @@ import { GoogleAuthButton } from "@/components/auth/GoogleAuthButton";
 import { PasswordStrengthMeter } from "@/components/auth/PasswordStrengthMeter";
 import { FormInput } from "@/components/common/FormInput";
 import { PrimaryButton } from "@/components/common/PrimaryButton";
-import { getPasswordStrength, validateEmail } from "@/utils/validators";
+import { getPasswordStrength } from "@/utils/validators";
+import { signupSchema } from "@/Schemas/Signup.schema";
 
 const TRUST_BADGES: TrustBadge[] = [
   {
@@ -56,51 +57,71 @@ const SignUpPage = () => {
 
   const { isStrong } = getPasswordStrength(password);
 
+  const validateField = (
+    field: "fullName" | "email" | "password" | "agreeToTerms",
+    value: unknown
+  ) => {
+    const result = signupSchema.shape[field].safeParse(value);
+    return result.success ? "" : result.error.issues[0]?.message || "";
+  };
+
+  const handleNameChange = (value: string) => {
+    setFullName(value);
+    if (nameError) setNameError(validateField("fullName", value));
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (emailError) setEmailError(validateField("email", value));
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    if (passwordError) setPasswordError(validateField("password", value));
+  };
+
+  const handleTermsChange = (checked: boolean) => {
+    setAgreeToTerms(checked);
+    if (termsError) setTermsError(validateField("agreeToTerms", checked));
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let isValid = true;
+
+    const validationResult = signupSchema.safeParse({
+      fullName,
+      email,
+      password,
+      agreeToTerms,
+    });
+
+    if (!validationResult.success) {
+      const fieldErrors = validationResult.error.flatten().fieldErrors;
+      setNameError(fieldErrors.fullName?.[0] || "");
+      setEmailError(fieldErrors.email?.[0] || "");
+      setPasswordError(fieldErrors.password?.[0] || "");
+      setTermsError(fieldErrors.agreeToTerms?.[0] || "");
+      return;
+    }
 
     setNameError("");
     setEmailError("");
     setPasswordError("");
     setTermsError("");
-
-    if (!fullName.trim()) {
-      setNameError("Please enter your full name.");
-      isValid = false;
-    }
-
-    const emailMsg = validateEmail(email);
-    if (emailMsg) {
-      setEmailError(emailMsg);
-      isValid = false;
-    }
-
-    if (!password.trim()) {
-      setPasswordError("Please enter your password.");
-      isValid = false;
-    } else if (!isStrong) {
-      setPasswordError("Please meet all password requirements.");
-      isValid = false;
-    }
-
-    if (!agreeToTerms) {
-      setTermsError(
-        "You must agree to the Terms of Service and Privacy Policy."
-      );
-      isValid = false;
-    }
-
-    if (!isValid) return;
-
     setLoading(true);
-    const parts = fullName.trim().split(/\s+/);
+
+    const parts = validationResult.data.fullName.trim().split(/\s+/);
     const firstName = parts[0] ?? "";
     const lastName = parts.slice(1).join(" ");
 
     try {
       const result = await dispatch(
-        signupThunk({ firstName, lastName, email: email.trim(), password })
+        signupThunk({
+          firstName,
+          lastName,
+          email: validationResult.data.email,
+          password: validationResult.data.password,
+        })
       ).unwrap();
 
       if (result.success) {
@@ -151,10 +172,8 @@ const SignUpPage = () => {
           required
           placeholder="Alex Rivera"
           value={fullName}
-          onChange={(e) => {
-            setFullName(e.target.value);
-            if (nameError && e.target.value.trim()) setNameError("");
-          }}
+          onChange={(e) => handleNameChange(e.target.value)}
+          onBlur={() => setNameError(validateField("fullName", fullName))}
           error={Boolean(nameError)}
           helperText={nameError}
         />
@@ -165,10 +184,8 @@ const SignUpPage = () => {
           type="email"
           placeholder="alex@company.com"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (emailError) setEmailError(validateEmail(e.target.value));
-          }}
+          onChange={(e) => handleEmailChange(e.target.value)}
+          onBlur={() => setEmailError(validateField("email", email))}
           error={Boolean(emailError)}
           helperText={emailError}
         />
@@ -179,10 +196,8 @@ const SignUpPage = () => {
           enablePasswordToggle
           placeholder="••••••••"
           value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            if (passwordError) setPasswordError("");
-          }}
+          onChange={(e) => handlePasswordChange(e.target.value)}
+          onBlur={() => setPasswordError(validateField("password", password))}
           error={Boolean(passwordError)}
           helperText={passwordError}
           rightLabelSlot={
@@ -209,10 +224,7 @@ const SignUpPage = () => {
             control={
               <Checkbox
                 checked={agreeToTerms}
-                onChange={(e) => {
-                  setAgreeToTerms(e.target.checked);
-                  if (termsError && e.target.checked) setTermsError("");
-                }}
+                onChange={(e) => handleTermsChange(e.target.checked)}
                 size="small"
               />
             }

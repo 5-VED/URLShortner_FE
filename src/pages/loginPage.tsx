@@ -19,7 +19,7 @@ import { AuthLayout, TrustBadge } from "@/components/auth/AuthLayout";
 import { GoogleAuthButton } from "@/components/auth/GoogleAuthButton";
 import { FormInput } from "@/components/common/FormInput";
 import { PrimaryButton } from "@/components/common/PrimaryButton";
-import { validateEmail, validatePassword } from "@/utils/validators";
+import { loginSchema } from "@/Schemas/Login.schema";
 
 const TRUST_BADGES: TrustBadge[] = [
   {
@@ -49,29 +49,52 @@ const LoginPage = () => {
 
   const isFormFilled = email.trim() !== "" && password.trim() !== "";
 
+  const validateEmailField = (value: string) => {
+    const result = loginSchema.shape.email.safeParse(value);
+    return result.success ? "" : result.error.issues[0]?.message || "";
+  };
+
+  const validatePasswordField = (value: string) => {
+    const result = loginSchema.shape.password.safeParse(value);
+    return result.success ? "" : result.error.issues[0]?.message || "";
+  };
+
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    if (emailError) setEmailError(validateEmail(value));
+    if (emailError) setEmailError(validateEmailField(value));
   };
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-    if (passwordError) setPasswordError(validatePassword(value));
+    if (passwordError) setPasswordError(validatePasswordField(value));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const emailMsg = validateEmail(email);
-    const passwordMsg = validatePassword(password);
-    setEmailError(emailMsg);
-    setPasswordError(passwordMsg);
-    if (emailMsg || passwordMsg) return;
+    const validationResult = loginSchema.safeParse({
+      email,
+      password,
+      rememberDevice,
+    });
 
+    if (!validationResult.success) {
+      const fieldErrors = validationResult.error.flatten().fieldErrors;
+      setEmailError(fieldErrors.email?.[0] || "");
+      setPasswordError(fieldErrors.password?.[0] || "");
+      return;
+    }
+
+    setEmailError("");
+    setPasswordError("");
     setLoading(true);
+
     try {
       const result = await dispatch(
-        loginThunk({ email: email.trim(), password })
+        loginThunk({
+          email: validationResult.data.email,
+          password: validationResult.data.password,
+        })
       ).unwrap();
 
       if (result.success) {
@@ -124,7 +147,7 @@ const LoginPage = () => {
           placeholder="alex@acmedesign.studio"
           value={email}
           onChange={(e) => handleEmailChange(e.target.value)}
-          onBlur={() => setEmailError(validateEmail(email))}
+          onBlur={() => setEmailError(validateEmailField(email))}
           error={Boolean(emailError)}
           helperText={emailError}
           startIcon={<MailOutlinedIcon fontSize="small" color="action" />}
@@ -137,7 +160,7 @@ const LoginPage = () => {
           placeholder="••••••••••••"
           value={password}
           onChange={(e) => handlePasswordChange(e.target.value)}
-          onBlur={() => setPasswordError(validatePassword(password))}
+          onBlur={() => setPasswordError(validatePasswordField(password))}
           error={Boolean(passwordError)}
           helperText={passwordError}
           startIcon={<LockOutlinedIcon fontSize="small" color="action" />}

@@ -5,6 +5,7 @@ import Dashboard from "./pages/DashboardPage";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ForgotPassword from "./pages/forgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
       </Routes>
     </>
   );

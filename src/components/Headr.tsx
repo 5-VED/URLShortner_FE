@@ -38,7 +38,7 @@ export const Header = () => {
         <Toolbar disableGutters sx={{ height: 70, gap: 3 }}>
           {/* Brand Logo & Name */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <ContentCutIcon sx={{ color: "#4F46E5", fontSize: 24 }} />s
+            <ContentCutIcon sx={{ color: "#4F46E5", fontSize: 24 }} />
             <Typography
               variant="h6"
               sx={{

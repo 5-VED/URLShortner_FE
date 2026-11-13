@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Divider,
   Grid,
@@ -50,6 +49,8 @@ const footerColumns: FooterColumn[] = [
   },
 ];
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 const Footer = () => {
   return (
     <Box component="footer" sx={{ fontFamily: "Inter, sans-serif", mt: 8 }}>
@@ -68,9 +69,8 @@ const Footer = () => {
             <Grid size={{ xs: 12, md: 5 }}>
               <Stack
                 direction="row"
-                alignItems="center"
                 spacing={1}
-                sx={{ mb: 2 }}
+                sx={{ alignItems: "center", mb: 2 }}
               >
                 <Box
                   sx={{
@@ -191,13 +191,11 @@ const Footer = () => {
           {/* Bottom Bar: Copyright & Social Icons */}
           <Stack
             direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems="center"
             spacing={2}
+            sx={{ justifyContent: "space-between", alignItems: "center" }}
           >
             <Typography sx={{ fontSize: "0.813rem", color: "#64748B" }}>
-              © {new Date().getFullYear()} Snip Technologies, Inc. All rights
-              reserved.
+              © {CURRENT_YEAR} Snip Technologies, Inc. All rights reserved.
             </Typography>
 
             <Stack direction="row" spacing={1}>

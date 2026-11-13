@@ -13,7 +13,7 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
-  error: null;
+  error: string | null;
 }
 
 const initialState: AuthState = {
@@ -59,9 +59,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      ((state.user = null),
-        (state.accessToken = null),
-        (state.status = "idle"));
+      state.user = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.status = "idle";
+      state.error = null;
     },
     cleanError: (state) => {
       state.error = null;

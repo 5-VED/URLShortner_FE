@@ -262,7 +262,7 @@ const LoginPage = () => {
                 Password
               </Typography>
               <Link
-                href="#"
+                href="/forgot-password"
                 variant="body2"
                 underline="hover"
                 sx={{ fontWeight: 500 }}

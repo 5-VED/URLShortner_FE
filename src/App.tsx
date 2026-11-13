@@ -4,6 +4,7 @@ import LoginPage from "./pages/loginPage";
 import Dashboard from "./pages/DashboardPage";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import ForgotPassword from "./pages/forgotPassword";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
